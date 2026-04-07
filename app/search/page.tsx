@@ -1,41 +1,35 @@
-"use client";
-
-import songs from "../../data/songs.json";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { supabase } from "../../lib/supabase";
 
-export default function SearchPage() {
-  const [q, setQ] = useState("");
+export const revalidate = 10;
 
-  const filtered = useMemo(() => {
-    const x = q.toLowerCase().trim();
-    if (!x) return songs;
-    return songs.filter(
-      (s) =>
-        s.title.toLowerCase().includes(x) ||
-        s.artist.toLowerCase().includes(x) ||
-        s.category.toLowerCase().includes(x)
-    );
-  }, [q]);
+async function getSongs() {
+  const { data, error } = await supabase
+    .from("songs")
+    .select("id, slug, title, artist, category")
+    .order("created_at", { ascending: false });
+
+  if (error) return [];
+  return data ?? [];
+}
+
+export default async function SearchPage() {
+  const songs = await getSongs();
 
   return (
     <main className="py-4">
-      <h1 className="text-xl mb-3">Search Lagu</h1>
-      <input
-        value={q}
-        onChange={(e) => setQ(e.target.value)}
-        placeholder="Cari judul / artis..."
-        className="w-full panel p-3 rounded mb-4"
-      />
+      <h1 className="text-2xl font-bold mb-4">Search Lagu</h1>
       <div className="space-y-3">
-        {filtered.map((song) => (
+        {songs.map((song: any) => (
           <Link
             key={song.id}
             href={`/chord/${song.slug}`}
             className="block panel p-3 rounded"
           >
             <div>{song.title}</div>
-            <div className="text-sm opacity-80">{song.artist} • {song.category}</div>
+            <div className="text-sm opacity-80">
+              {song.artist} • {song.category}
+            </div>
           </Link>
         ))}
       </div>
