@@ -23,13 +23,13 @@ export default async function ChordPage({
         <pre
   style={{
     whiteSpace: "pre-wrap",
-    fontSize: "18px",
-    lineHeight: "1.6",
-    letterSpacing: "0",
-    fontFamily: "Arial, sans-serif"
+    fontSize: "20px",
+    lineHeight: "1.35",
+    marginTop: "8px",
+    fontFamily: "Arial, sans-serif",
   }}
 >
-  {song.lyrics}
+  {song.lyrics.replace(/\n\n/g, "\n")}
 </pre>
       </section>
     </main>
