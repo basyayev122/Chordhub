@@ -15,10 +15,13 @@ export default async function ChordPage({
   if (!song) return notFound();
 
   return (
-    <main style={{ padding: 24 }}>
-      <h1>{song.title}</h1>
-      <p>{song.artist} • {song.category}</p>
-      <pre style={{ whiteSpace: "pre-wrap", marginTop: 12 }}>{song.lyrics}</pre>
+    <main className="chord-container">
+      <h1 className="chord-title">{song.title}</h1>
+      <p className="chord-meta">{song.artist} • {song.category}</p>
+
+      <section className="chord-block">
+        <pre className="chord-lyrics">{song.lyrics}</pre>
+      </section>
     </main>
   );
 }
