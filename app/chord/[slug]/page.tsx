@@ -20,16 +20,16 @@ export default async function ChordPage({
       <p className="chord-meta">{song.artist} • {song.category}</p>
 
       <section className="chord-block">
-        <pre
+        <pre<pre
   style={{
     whiteSpace: "pre-wrap",
     fontSize: "20px",
-    lineHeight: "1.35",
-    marginTop: "8px",
+    lineHeight: "1.6",
+    letterSpacing: "0",
     fontFamily: "Arial, sans-serif",
   }}
 >
-  {song.lyrics.replace(/\n\n/g, "\n")}
+  {song.lyrics}
 </pre>
       </section>
     </main>
