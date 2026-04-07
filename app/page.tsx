@@ -1,24 +1,18 @@
-import songs from "../../../data/songs.json";
-import { notFound } from "next/navigation";
+import songs from "../data/songs.json";
+import Link from "next/link";
 
-export function generateStaticParams() {
-  return songs.map((s) => ({ slug: s.slug }));
-}
-
-export default async function ChordPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const song = songs.find((s) => s.slug === slug);
-  if (!song) return notFound();
-
+export default function Home() {
   return (
-    <main style={{ padding: 24 }}>
-      <h1>{song.title}</h1>
-      <p>{song.artist} • {song.category}</p>
-      <pre style={{ whiteSpace: "pre-wrap", marginTop: 12 }}>{song.lyrics}</pre>
+    <main className="py-4">
+      <h1 className="text-xl mb-3">Daftar Lagu</h1>
+      <div className="space-y-3">
+        {songs.map((song) => (
+          <Link key={song.id} href={`/chord/${song.slug}`} className="block panel p-3 rounded">
+            <div>{song.title}</div>
+            <div className="text-sm opacity-80">{song.artist} • {song.category}</div>
+          </Link>
+        ))}
+      </div>
     </main>
   );
 }
