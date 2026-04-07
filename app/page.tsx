@@ -1,17 +1,37 @@
-import songs from "../data/songs.json";
-import Link from "next/link";
+import songs from "../../../data/songs.json";
+import { notFound } from "next/navigation";
 
-export default function Home() {
+export function generateStaticParams() {
+  return songs.map((s) => ({ slug: s.slug }));
+}
+
+export default async function ChordPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const song = songs.find((s) => s.slug === slug);
+  if (!song) return notFound();
+
   return (
-    <main className="py-4">
-      <h1 className="text-xl mb-3">Daftar Lagu</h1>
-      <div className="space-y-3">
-        {songs.map((song) => (
-          <Link key={song.id} href={`/chord/${song.slug}`} className="block panel p-3 rounded">
-            <div>{song.title}</div>
-            <div className="text-sm opacity-80">{song.artist} • {song.category}</div>
-          </Link>
-        ))}
+    <main style={{ padding: 24 }}>
+      <h1>{song.title}</h1>
+      <p>{song.artist} • {song.category}</p>
+
+      <div style={{ marginTop: "10px" }}>
+        {song.lyrics
+          .trim()
+          .split("\n\n")
+          .map((block, i) => {
+            const [chord = "", lyric = ""] = block.split("\n");
+            return (
+              <div key={i} style={{ marginBottom: "14px" }}>
+                <div style={{ fontSize: "20px", lineHeight: "1.2" }}>{chord}</div>
+                <div style={{ fontSize: "28px", lineHeight: "1.2" }}>{lyric}</div>
+              </div>
+            );
+          })}
       </div>
     </main>
   );
