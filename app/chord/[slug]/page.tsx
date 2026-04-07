@@ -23,7 +23,7 @@ export default async function ChordPage({
         <pre
   style={{
     whiteSpace: "pre-wrap",
-    fontSize: "20px",
+    fontSize: "18px",
     lineHeight: "1.6",
     letterSpacing: "0",
     fontFamily: "Arial, sans-serif"
