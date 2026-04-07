@@ -15,10 +15,10 @@ export default async function ChordPage({
   if (!song) return notFound();
 
   return (
-    <main className="py-4">
-      <h1 className="text-2xl font-bold mb-2">{song.title}</h1>
-      <p className="opacity-80 mb-4">{song.artist} • {song.category}</p>
-      <pre className="panel p-3 rounded whitespace-pre-wrap">{song.lyrics}</pre>
+    <main style={{ padding: 24 }}>
+      <h1>{song.title}</h1>
+      <p>{song.artist} • {song.category}</p>
+      <pre style={{ whiteSpace: "pre-wrap", marginTop: 12 }}>{song.lyrics}</pre>
     </main>
   );
 }
