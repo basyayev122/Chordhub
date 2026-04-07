@@ -30,7 +30,7 @@ export default async function ChordPage({
   }}
 >
   {song.lyrics}
-</pre>>
+</pre>
       </section>
     </main>
   );
