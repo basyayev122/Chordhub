@@ -1,16 +1,23 @@
-import songs from "../../../data/songs.json";
 import { notFound } from "next/navigation";
+import { supabase } from "../../../lib/supabase";
 
-export function generateStaticParams() {
-  return songs.map((s) => ({ slug: s.slug }));
+async function getSong(slug: string) {
+  const { data, error } = await supabase
+    .from("songs")
+    .select("slug,title,artist,category,lyrics")
+    .eq("slug", slug)
+    .single();
+
+  if (error) return null;
+  return data;
 }
 
-export default function ChordPage({
+export default async function ChordPage({
   params,
 }: {
   params: { slug: string };
 }) {
-  const song = songs.find((s) => s.slug === params.slug);
+  const song = await getSong(params.slug);
   if (!song) return notFound();
 
   return (
